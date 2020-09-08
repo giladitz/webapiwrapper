@@ -27,16 +27,18 @@ class WebApiWrapper:
             self.url += '{sep}{key}={val}'.format(sep=sep, key=k, val=v)
 
     def get_req(self):
-        print('self.params: {}'.format(self.params))
+        # print('self.params: {}'.format(self.params))
         response = requests.get(self.url, params=self.params)
         if response.ok is False:
             status = False
             response = {'status code': response.status_code}
             return status, response
-        try:
-            ret_error = response.json()['error']
-        except:
-            ret_error = False
-        if ret_error is not False:
-            return False, ret_error
-        return True, response.json()['result']
+        json_ret = response.json()
+        check = json_ret.get('error', None)
+        if check is not None:
+            return False, check
+        check = json_ret.get('result', None)
+        if check is not None:
+            return True, check
+
+        return False, json_ret
