@@ -1,11 +1,41 @@
+import sys
 from webapiwrapper import WebApiWrapper
 from colorama import init, Fore, Back, Style
+
+
+import requests
+
+BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAALH2GwEAAAAA9oL0eO%2ByzBN4QekyhVtGxHoC5O8%3DRgreJy3Tg1Tb21FzVkJrnzermg0fYsr83aEeOBoXoz6brqMbcZ'
+def stream_api():
+    return "https://api.twitter.com/2/tweets/sample/stream"
+
+res = requests.request(method='GET',
+                        url=stream_api(),
+                        headers={'Authorization': 'Bearer {}'.format(BEARER_TOKEN)},
+                        stream=True)
+print(res.json)
 
 
 init()
 coloring_schema = [Fore.LIGHTBLUE_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTRED_EX, Fore.LIGHTRED_EX, Fore.LIGHTRED_EX]
 
 MAX_COUNT = 18
+
+if '--bypass=1' in sys.argv:
+    # web service JOBS testing
+
+    #web_api = WebApiWrapper('http://127.0.0.1:5000/', api_keys=None)
+    web_api = WebApiWrapper('http://tradiesjobsws-env.eba-86vrtb43.ap-southeast-2.elasticbeanstalk.com/',
+                            api_keys=None,
+                            prints=True)
+    web_api.get_req()
+    web_api.post_req()
+    web_api.put_req()
+    web_api.delete_req()
+
+    import sys
+    sys.exit()
+
 
 while True:
     url = 'https://www.abbreviations.com/services/v2/syno.php'

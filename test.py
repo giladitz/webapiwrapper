@@ -1,5 +1,17 @@
+import json
 from pprint import pprint
 from webapiwrapper import WebApiWrapper
+
+
+j = {
+        'description': 'Fixing a hole in the wall',
+        'creator_id': 'cus_123456',
+        'assigned_to_tradie_id': 'trd_121314',
+        'date': '14/12/2020',
+        'time': '14:00-16:00'
+    }
+wapi = WebApiWrapper('http://127.0.0.1:5000/?jid=2', data=json.dumps(j))
+wapi.post_req()
 
 user_input = input()
 
